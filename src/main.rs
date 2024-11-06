@@ -385,7 +385,7 @@ async fn execute_transfer(
             let mut burn_fee = ledger.burn_fee().into();
             if ledger.burn_fee_rate() != Tokens::zero() {
                 let fee_nat = Nat::from(amount).mul(Nat::from(ledger.burn_fee_rate())).div(Nat::from(10_000u32));
-                burn_fee = Tokens::try_from(fee_nat).unwrap_or_else(|_| panic!("Bas burn fee rate:{}",ledger.burn_fee_rate()));
+                burn_fee = Tokens::try_from(fee_nat).unwrap_or_else(|_| panic!("Bad burn fee rate:{}",ledger.burn_fee_rate()));
             }
             if burn_fee != Tokens::zero(){
                 let to_account = Account {
@@ -398,7 +398,7 @@ async fn execute_transfer(
                     spender,
                     burn_fee,
                     Some(Tokens::zero()),
-                    created_at_time,
+                    None,
                     memo_burn,
                 );
                 let total_amount =Nat::from(effective_fee)+Nat::from(burn_fee)+Nat::from(amount);
